@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ToDoController!{% endblock %}
+
+{% block body %}
+
+
+<div class="container text-center">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">id</th>
+                <th scope="col">Tache</th>
+                <th scope="col">Description</th>
+                <th scope="col">Etat</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for todo in todolist %}
+            <tr>
+                <th scope="row">{{todo.id}}</th>
+                <td>{{todo.task}}</td>
+                <td>{{todo.description}}</td>
+                <td>
+                    <input type="checkbox" {{todo.completed == false ? '' : 'checked'}}>
+                </td>
+                <td>
+                    <a href="{{ path('app.todo.detail', {'id': todo.id}) }}" class="btn btn-info">détail</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+</div>
+{% endblock %}
