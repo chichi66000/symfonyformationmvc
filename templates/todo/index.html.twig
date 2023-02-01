@@ -7,7 +7,14 @@
 
 <div class="container text-center">
     <h1>Hello {{ controller_name }}! ✅</h1>
+    {# Message error #}
+    {% for flash in app.flashes('warning') %}
+        <div class="alert alert-warning text-center">
+            {{ flash }}
+        </div>
+    {% endfor %}
 
+    {% if (todolist ) %}
     <table class="table table-striped">
         <thead>
             <tr>
@@ -24,15 +31,19 @@
                 <td>{{todo.task}}</td>
                 <td>{{todo.description}}</td>
                 <td>
-                    <input type="checkbox" {{todo.completed == false ? '' : 'checked'}}>
+                    <input onchange = "window.location.href = '{{ path('app.todo.patch.completed',  {'id': todo.id})}}' " type="checkbox" {{todo.completed == false ? '' : 'checked'}}>
                 </td>
                 <td>
                     <a href="{{ path('app.todo.detail', {'id': todo.id}) }}" class="btn btn-info">détail</a>
                 </td>
+                <td>
+                    <a href="{{ path('app.todo.delete', {'id': todo.id}) }}" class="btn btn-warning">Delete</a>
+                </td>
+
             </tr>
             {% endfor %}
         </tbody>
     </table>
-    
+    {% endif %}
 </div>
 {% endblock %}

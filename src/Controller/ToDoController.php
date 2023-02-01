@@ -56,6 +56,54 @@ class ToDoController extends AbstractController
         ]);
     }
 
+
+    // Route suppression
+    #[Route('/delete/{id}', name: 'app.todo.delete', methods: ['GET'])]
+    public function delete (Request $request, int $id) : Response 
+    {
+        // on récupère la session en cours
+        $session = $request->getSession();
+        // recupere todolist dans la session
+        $todolist = $session->get('todolist');
+        $result = null;
+
+        foreach($todolist as $key => $todo) {
+            if ($todo->id == $id) {
+                $result = $todo;
+                unset($todolist[$key]);
+                $session->set('todolist', $todolist);
+                $this->addFlash('warning', 'La todo a été supprimé');
+                return $this->redirectToRoute('app.todo');
+            }
+            else {
+                return $this->render('todo/delete.html.twig', [
+                    "result" => $result
+                ]);
+            }
+        }
+        
+    }
+
+    // modify
+    #[Route('/patch/completed/{id}',name: 'app.todo.patch.completed', methods: "GET")]
+    public function patchCompleted (Request $request, int $id) : Response 
+    {
+        // on récupère la session en cours
+        $session = $request->getSession();
+        // recupere todolist dans la session
+        $todolist = $session->get('todolist');
+        // changer completed de todo vec id
+        foreach($todolist as $key => $todo) { 
+            if ($todo->id == $id) {
+                $todo->completed = !$todo->completed;
+            }
+        }
+
+        // reset session
+        $session->set('todolist', $todolist);
+        return $this->redirect('/todo');
+    } 
+
     private function init ():array 
     {
         return [

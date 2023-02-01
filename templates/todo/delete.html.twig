@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+{% block title %}Détail Todo{% endblock %}
+
+{% block body %}
+    {# Message error #}
+    {% for flash in app.flashes('warning') %}
+        <div class="alert alert-warning text-center">
+            {{ flash }}
+        </div>
+    {% endfor %}
+
+    {% if ( result == null) %}
+        <div class="alert alert-danger text-center">Todo n'esxist pas </div>
+    {% endif %}
+
+    <div class="text-center">
+        <a class="btn btn-primary " href="{{path('app.todo')}}">Retour</a>
+    </div>
+
+{% endblock %}
