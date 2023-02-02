@@ -21,7 +21,7 @@ class Acteur
     #[ORM\Column(length: 50)]
     private ?string $prenom = null;
 
-    #[ORM\ManyToMany(targetEntity: Film::class, inversedBy: 'acteurs')]
+    #[ORM\ManyToMany(targetEntity: Film::class, mappedBy: 'acteurs')]
     private Collection $film;
 
     public function __construct()
@@ -82,7 +82,7 @@ class Acteur
         return $this;
     }
 
-    public function __toString():string 
+    public function __toString(): string
     {
         return $this->prenom . " " . $this->nom;
     }
