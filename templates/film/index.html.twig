@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Film index{% endblock %}
+{% block title %}Film accueil{% endblock %}
 
 {% block body %}
-    <h1>Film index</h1>
+    <div class="container ">
+        <h1 class="text-center my-3">Film accueil</h1>
 
-    <table class="table">
+    {# <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Titre</th>
                 <th>Description</th>
                 <th>Date_de_sortie</th>
@@ -20,7 +20,6 @@
         <tbody>
         {% for film in films %}
             <tr>
-                <td>{{ film.id }}</td>
                 <td>{{ film.titre }}</td>
                 <td>{{ film.description }}</td>
                 <td>{{ film.dateDeSortie ? film.dateDeSortie|date('Y-m-d') : '' }}</td>
@@ -37,7 +36,21 @@
             </tr>
         {% endfor %}
         </tbody>
-    </table>
+    </table> #}
 
-    <a href="{{ path('app_film_new') }}">Create new</a>
+        <div class="row ">
+        {% for item in films %}
+            <div class="card col-4 m-2" style="width: 15rem;">
+                <img src="{{ item.image }}" class="card-img-top" alt="affiche">
+                <div class="card-body">
+                    <h5 class="card-title">{{item.titre}}</h5>
+                    
+                    <a href="{{ path('app_film_edit', {'id': item.id}) }}" class="btn btn-primary">Edition</a>
+                    <a href="{{ path('app_film_show', {'id': item.id}) }}" class="btn btn-primary">Detail</a>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        <a href="{{ path('app_film_new') }}">Create new</a>
+    </div>
 {% endblock %}
