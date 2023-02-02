@@ -79,8 +79,14 @@ class FilmController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_film_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Film $film, FilmRepository $filmRepository): Response
+    public function edit(Request $request, Film $film=null, FilmRepository $filmRepository): Response
     {
+        
+        if ($film == null) {
+            return $this->flash('Film pas trouvé');
+        }
+        
+
         $form = $this->createForm(FilmType::class, $film);
         $form->handleRequest($request);
 
@@ -90,19 +96,29 @@ class FilmController extends AbstractController
             return $this->redirectToRoute('app_film_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('film/edit.html.twig', [
+        return $this->render('film/edit.html.twig', [
             'film' => $film,
             'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'app_film_delete', methods: ['POST'])]
-    public function delete(Request $request, Film $film, FilmRepository $filmRepository): Response
+    public function delete(Request $request, Film $film= null, FilmRepository $filmRepository): Response
     {
+        if ($film == null) {
+            return $this->flash('Film pas trouvé');
+        }
+
         if ($this->isCsrfTokenValid('delete'.$film->getId(), $request->request->get('_token'))) {
             $filmRepository->remove($film, true);
         }
 
         return $this->redirectToRoute('app_film_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    private function flash ($message) 
+    {
+        $this->addFlash('error', $message);
+        return $this->redirectToRoute('app_film_index');
     }
 }
