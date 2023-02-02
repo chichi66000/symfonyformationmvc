@@ -1,0 +1,26 @@
+
+
+{{ form_start(form) }}
+    {# {{ form_widget(form) }} #}
+    <div class="row">
+        <div class="mb-3 col">
+            {{ form_row(form.titre) }}
+        </div>
+
+        <div class="mb-3 col">
+            {{ form_row(form.description) }}
+        </div>
+    </div>
+
+    {{ form_row(form.genres) }}
+    <div>
+    </div>
+    {# <select class="form-select" multiple>
+        <option value="">
+            {{ form_row(form.genres) }}
+        </option>
+    </select> #}
+    {{ form_rest(form) }}
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+</div>
